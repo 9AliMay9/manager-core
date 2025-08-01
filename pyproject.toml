@@ -1,0 +1,19 @@
+[project]
+name = "manager-core"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Ali May", email = "2628839532@qq.com"},
+]
+dependencies = ["fastapi>=0.116.1", "uvicorn>=0.35.0", "sqlalchemy>=2.0.41", "psycopg2>=2.9.10", "pydantic>=2.11.7", "python-dotenv>=1.1.1", "alembic>=1.16.4"]
+requires-python = ">=3.11"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+
+[tool.pdm]
+distribution = true
