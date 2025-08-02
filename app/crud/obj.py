@@ -52,9 +52,14 @@ def read_obj_by_dtgs(db: Session, dtgs: str) -> schemas.ObjDetailOut:
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
 
-def read_objs_by_ctgr(db: Session, ctgr: str) -> list[schemas.ObjListOut]:
+def read_objs_by_ctgr(db: Session, ctgr: str, strict: bool = False) -> list[schemas.ObjListOut]:
     """Return Obj entries filtered by category"""
     try:
+        if strict:
+            exists = db.query(models.Obj).filter(models.Obj.ctgr == ctgr).first()
+            if not exists:
+                raise HTTPException(status_code=404, detail=f"Category '{ctgr}' not found")
+
         objs = db.query(models.Obj).filter(models.Obj.ctgr == ctgr).all()
         return [schemas.ObjListOut.model_validate(obj) for obj in objs]
     except SQLAlchemyError as e:

@@ -40,9 +40,14 @@ def read_sbj_by_dtgs(db: Session, dtgs: str) -> schemas.SbjDetailOut:
         raise HTTPException(status_code=500, detail=f"Database error: {e}")
 
 
-def read_sbjs_by_ctgr(db: Session, ctgr: str) -> list[schemas.SbjBriefOut]:
+def read_sbjs_by_ctgr(db: Session, ctgr: str, strict: bool = False) -> list[schemas.SbjBriefOut]:
     """Return brief list of Sbjs by category"""
     try:
+        if strict:
+            exists = db.query(models.Sbj).filter(models.Sbj.ctgr == ctgr).first()
+            if not exists:
+                raise HTTPException(status_code=404, detail=f"Catagory '{ctgr}' not found")
+
         sbjs = db.query(models.Sbj.dtgs).filter(models.Sbj.ctgr == ctgr).all()
         return [schemas.SbjBriefOut(dtgs=row[0]) for row in sbjs]
     except SQLAlchemyError as e:

@@ -22,8 +22,8 @@ def read_sbj_by_dtgs(dtgs: str, db: Session = Depends(get_db)):
 
 # Get all Sbj entries with a given ctgr
 @router.get("/by-ctgr/", response_model=list[schemas.SbjBriefOut])
-def read_sbjs_by_ctgr(ctgr: str = Query(...), db: Session = Depends(get_db)):
-    return crud.sbj.read_sbjs_by_ctgr(db, ctgr)
+def read_sbjs_by_ctgr(ctgr: str = Query(...), strict: bool = Query(False), db: Session = Depends(get_db)):
+    return crud.sbj.read_sbjs_by_ctgr(db, ctgr, strict)
 
 
 # Create a new Sbj entry

@@ -22,8 +22,8 @@ def read_obj_by_dtgs(dtgs: str, db: Session = Depends(get_db)):
 
 # Get all Obj entries with a given ctgr
 @router.get("/by-ctgr/", response_model=list[schemas.ObjListOut])
-def read_objs_by_ctgr(ctgr: str = Query(...), db: Session = Depends(get_db)):
-    return crud.obj.read_objs_by_ctgr(db, ctgr)
+def read_objs_by_ctgr(ctgr: str = Query(...), strict: bool = Query(False), db: Session = Depends(get_db)):
+    return crud.obj.read_objs_by_ctgr(db, ctgr, strict)
 
 
 # Create a new Obj entry
